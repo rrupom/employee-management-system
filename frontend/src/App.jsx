@@ -5,6 +5,7 @@ import Dashboard from "./Dashboard";
 import Employee from "./Employee";
 import Profile from "./Profile";
 import Home from "./Home";
+import AddEmployee from "./AddEmployee";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/home" element={<Home />}></Route>
           <Route path="/employee" element={<Employee />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
+          <Route path="/create" element={<AddEmployee />}></Route>
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

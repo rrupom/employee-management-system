@@ -4,6 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import multer from "multer";
+import path from "path";
 
 const app = express();
 app.use(cors());
@@ -17,6 +19,20 @@ const connection = mysql.createConnection({
   password: "",
   database: "employee",
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/images");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({ storage: storage });
 
 connection.connect(function (err) {
   if (err) {
@@ -37,6 +53,33 @@ app.post("/login", (req, res) => {
     } else {
       return res.json({ Status: "Error", Error: "Wrong Email or Password" });
     }
+  });
+});
+
+app.post("/create", upload.single("image"), (req, res) => {
+  //   console.log(req.body);
+  const sql =
+    "INSERT INTO addemployee (`name`,`email`,`password`,`salary`,`address`,`image`) VALUES (?)";
+  bcrypt.hash(req.body.password.toString(), 10, function (err, hash) {
+    if (err) {
+      return res.json({ Error: "Error in hashing password" });
+    }
+
+    const values = [
+      req.body.name,
+      req.body.email,
+      hash,
+      req.body.salary,
+      req.body.address,
+      req.file.filename,
+    ];
+
+    connection.query(sql, [values], function (err, result) {
+      if (err) {
+        return res.json({ Error: "Inside empolyee add query" });
+      }
+      return res.json({ Success: "Success" });
+    });
   });
 });
 
