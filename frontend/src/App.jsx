@@ -7,6 +7,9 @@ import Profile from "./Profile";
 import Home from "./Home";
 import AddEmployee from "./AddEmployee";
 import EmployeeEdit from "./EmployeeEdit";
+import Start from "./Start";
+import EmployeeDetail from "./EmployeeDetail";
+import EmployeeLogin from "./EmployeeLogin";
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
           <Route path="/employeeEdit/:id" element={<EmployeeEdit />}></Route>
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/start" element={<Start />} />
+        <Route path="/employeeLogin" element={<EmployeeLogin />} />
+        <Route path="/employeeDetail/:id" element={<EmployeeDetail />} />
       </Routes>
     </BrowserRouter>
   );

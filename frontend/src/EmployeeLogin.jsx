@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 
-function Login() {
+function EmployeeLogin() {
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -17,10 +17,11 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:8080/login", values)
+      .post("http://localhost:8080/employeeLogin", values)
       .then((res) => {
         if (res.data.Status === "Success") {
-          navigate("/home");
+          const id = res.data.id;
+          navigate("/employeeDetail/" + id);
         } else {
           setError(res.data.Error);
         }
@@ -71,4 +72,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default EmployeeLogin;

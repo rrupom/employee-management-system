@@ -1,6 +1,39 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 function Home() {
+  const [adminCount, setAdminCount] = useState();
+  const [employeeCount, setEmployeeCount] = useState();
+  const [totalSalary, setTotalSalary] = useState();
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/adminCount")
+      .then((res) => {
+        // console.log(res);
+        setAdminCount(res.data[0].admin);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get("http://localhost:8080/employeeCount")
+      .then((res) => {
+        // console.log(res);
+        setEmployeeCount(res.data[0].employee);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get("http://localhost:8080/salaryCount")
+      .then((res) => {
+        // console.log(res);
+        setTotalSalary(res.data[0].SumOfSalary);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <div>
       <div className="p-3 d-flex justify-content-around">
@@ -10,7 +43,7 @@ function Home() {
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {adminCount}</h5>
           </div>
         </div>
         <div className="p-3 border shadow-sm w-25">
@@ -19,7 +52,7 @@ function Home() {
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {employeeCount}</h5>
           </div>
         </div>
         <div className="p-3 border shadow-sm w-25">
@@ -28,7 +61,7 @@ function Home() {
           </div>
           <hr />
           <div className="">
-            <h5>Total: {}</h5>
+            <h5>Total: {totalSalary}</h5>
           </div>
         </div>
       </div>
